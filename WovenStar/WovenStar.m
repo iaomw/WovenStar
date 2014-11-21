@@ -8,7 +8,7 @@
 
 #import "WovenStar.h"
 
-#define Range M_PI+M_PI/3
+#define Range (M_PI+M_PI/3)
 
 @interface WovenStar ()
 
@@ -47,18 +47,6 @@
 
 # pragma mark - Getter&Setter
 
-- (CGFloat)innerBaseAngle {
-    
-    if (!_innerBaseAngle) {
-        
-        _innerBaseAngle = (M_PI/12)+(M_PI/2);
-    }
-    
-    return _innerBaseAngle;
-}
-
-
-
 - (CGFloat)outerBaseAngle {
     
     if (!_outerBaseAngle) {
@@ -67,6 +55,16 @@
     }
     
     return _outerBaseAngle;
+}
+
+- (CGFloat)innerBaseAngle {
+    
+    if (!_innerBaseAngle) {
+        
+        _innerBaseAngle = (M_PI/12)+(M_PI/2);
+    }
+    
+    return _innerBaseAngle;
 }
 
 - (void)setPaused:(BOOL)paused {
@@ -90,7 +88,7 @@
     
     if (!_duration) {
         
-        return 2.2;
+        return 40;
     }
     
     return _duration;
@@ -116,6 +114,26 @@
     return _sideLength;
 }
 
+- (CGFloat)outerRadius {
+
+    if (!_outerRadius) {
+        
+        _outerRadius = self.sideLength*pow(2, 1.0/2)/2;
+    }
+    
+    return _outerRadius;
+}
+
+- (CGFloat)innerRadius {
+    
+    if (!_innerRadius) {
+        
+        _innerRadius = self.sideLength*pow(2, 1.0/2)/2;
+    }
+    
+    return _innerRadius;
+}
+
 # pragma mark - Animation
 
 - (void)update:(CADisplayLink *)displayLink
@@ -130,19 +148,19 @@
         
         self.ratio = ratio;
         
-        self.innerBaseAngle = 0;
         self.outerBaseAngle = 0;
+        self.innerBaseAngle = 0;
     }
     
     CGFloat rotateDelta = Range*ratio;
     
-    self.innerBaseAngle += rotateDelta;
-    self.outerBaseAngle -= rotateDelta;
+    self.outerBaseAngle += rotateDelta;
+    self.innerBaseAngle -= rotateDelta;
     
     CGFloat wave = sin(self.ratio*(2*M_PI));
 
-    self.innerRadius = self.sideLength*pow(2, 1.0/2)/2 + (1-wave)*self.sideLength/2;
-    self.outerRadius = self.sideLength*pow(2, 1.0/2)/2 + wave*self.sideLength/2;
+    self.outerRadius += wave*self.sideLength/1000;
+    self.innerRadius -= wave*self.sideLength/1000;
     
     [self setNeedsDisplay];
 }
@@ -165,22 +183,28 @@
     
     for (int i =0; i<12; i++) {
         
-        CGFloat angle = self.innerBaseAngle + M_PI*(i/6.0);
+        CGFloat outerAngle = self.outerBaseAngle + M_PI*(i/6.0);
+        CGSize outerdelta = CGSizeMake(self.outerRadius*cos(outerAngle), self.outerRadius*sin(outerAngle));
+        CGPoint outerPoint = CGPointMake(center.x+outerdelta.width, center.y-outerdelta.height);
         
-        CGSize delta = CGSizeMake(self.outerRadius*cos(angle), self.outerRadius*sin(angle));
+        CGFloat innerAngle = self.innerBaseAngle + M_PI*(i/6.0);
+        CGSize innerDelta = CGSizeMake(self.innerRadius*cos(innerAngle), self.innerRadius*sin(innerAngle));
+        CGPoint innerPoint = CGPointMake(center.x+innerDelta.width, center.y-innerDelta.height);
         
-        CGContextMoveToPoint(contextRef, center.x+delta.width, center.y-delta.height);
-        
-        angle = self.outerBaseAngle + M_PI*(i/6.0);
-        
-        delta = CGSizeMake(self.innerRadius*cos(angle), self.innerRadius*sin(angle));
-        
-        CGContextAddLineToPoint(contextRef, center.x+delta.width, center.y-delta.height);
+        CGContextMoveToPoint(contextRef, outerPoint.x, outerPoint.y);
+        CGContextAddLineToPoint(contextRef, innerPoint.x, innerPoint.y);
         
         UIColor *color = [UIColor colorWithRed:(1.0/i) green:1 blue:1.0/i alpha:0.7];
         
         CGContextSetStrokeColorWithColor(contextRef, color.CGColor);
+        CGContextStrokePath(contextRef);
         
+        CGContextAddArc(contextRef, outerPoint.x, outerPoint.y, 1, 0, M_PI*2, YES);
+        CGContextSetStrokeColorWithColor(contextRef, [UIColor yellowColor].CGColor);
+        CGContextStrokePath(contextRef);
+        
+        CGContextAddArc(contextRef, innerPoint.x, innerPoint.y, 1, 0, M_PI*2, YES);
+        CGContextSetStrokeColorWithColor(contextRef, [UIColor redColor].CGColor);
         CGContextStrokePath(contextRef);
     }
     
