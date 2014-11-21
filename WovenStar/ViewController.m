@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 
+#import "WovenStar.h"
+
 @interface ViewController ()
 
 @end
@@ -15,8 +17,16 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    WovenStar *ws = [[WovenStar alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    
+    [ws setPaused:NO];
+    
+    [ws setCenter:self.view.center];
+    
+    [self.view addSubview:ws];
 }
 
 - (void)didReceiveMemoryWarning {
