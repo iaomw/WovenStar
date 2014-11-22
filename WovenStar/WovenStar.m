@@ -69,7 +69,7 @@
     
     if (!_duration) {
         
-        return 8;
+        return 4;
     }
     
     return _duration;
@@ -157,9 +157,17 @@
     self.innerBaseAngle -= ratio*InnerRange;
     
     CGFloat wave = sin(self.ratio*(2*M_PI));
-
-    self.outerRadius += wave*self.sideLength/1000;
+    
     self.innerRadius -= wave*self.sideLength/1000;
+    
+    CGFloat differ = fabsf(self.innerBaseAngle - self.outerBaseAngle);
+    
+    CGFloat hh = sin(differ)*self.innerRadius;
+    
+    CGFloat oo = pow((pow(self.sideLength, 2)-pow(hh, 2)), 0.5);
+    CGFloat ii = cos(differ)*self.innerRadius;
+    
+    self.outerRadius = oo+ii;
     
     [self setNeedsDisplay];
 }
@@ -180,14 +188,14 @@
     
     for (int i =0; i<12; i++) {
         
-        CGFloat outerAngle = self.outerBaseAngle + M_PI*(i/6.0);
-        CGSize outerdelta = CGSizeMake(self.outerRadius*cos(outerAngle), self.outerRadius*sin(outerAngle));
-        CGPoint outerPoint = CGPointMake(center.x+outerdelta.width, center.y+outerdelta.height);
-        
         CGFloat innerAngle = self.innerBaseAngle + M_PI*(i/6.0);
         CGSize innerDelta = CGSizeMake(self.innerRadius*cos(innerAngle), self.innerRadius*sin(innerAngle));
         CGPoint innerPoint = CGPointMake(center.x+innerDelta.width, center.y+innerDelta.height);
         
+        CGFloat outerAngle = self.outerBaseAngle + M_PI*(i/6.0);
+        CGSize outerdelta = CGSizeMake(self.outerRadius*cos(outerAngle), self.outerRadius*sin(outerAngle));
+        CGPoint outerPoint = CGPointMake(center.x+outerdelta.width, center.y+outerdelta.height);
+
         CGContextMoveToPoint(contextRef, innerPoint.x, innerPoint.y);
         CGContextAddLineToPoint(contextRef, outerPoint.x, outerPoint.y);
         
