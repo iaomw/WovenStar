@@ -69,7 +69,7 @@
     
     if (!_duration) {
         
-        return 4;
+        return 8;
     }
     
     return _duration;
@@ -156,9 +156,9 @@
     self.outerBaseAngle += ratio*OuterRange;
     self.innerBaseAngle -= ratio*InnerRange;
     
-    CGFloat wave = sin(self.ratio*(2*M_PI));
+    CGFloat wave = sin(self.ratio*(M_PI));
     
-    self.innerRadius -= wave*self.sideLength/1000;
+    self.innerRadius = (self.sideLength*pow(2, 1.0/2)/2)-wave*(self.sideLength/2);
     
     CGFloat differ = fabsf(self.innerBaseAngle - self.outerBaseAngle);
     
@@ -182,9 +182,12 @@
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
     
     CGContextSaveGState(contextRef);
-    CGContextClearRect(contextRef, rect);
+    //CGContextClearRect(contextRef, rect);
     
-    CGContextSetLineWidth(contextRef, 4);
+    [self.foreColor setFill];
+    [self.backgroundColor setStroke];
+    
+    CGMutablePathRef pathRef = CGPathCreateMutable();
     
     for (int i =0; i<12; i++) {
         
@@ -193,21 +196,41 @@
         CGPoint innerPoint = CGPointMake(center.x+innerDelta.width, center.y+innerDelta.height);
         
         CGFloat outerAngle = self.outerBaseAngle + M_PI*(i/6.0);
-        CGSize outerdelta = CGSizeMake(self.outerRadius*cos(outerAngle), self.outerRadius*sin(outerAngle));
-        CGPoint outerPoint = CGPointMake(center.x+outerdelta.width, center.y+outerdelta.height);
-
-        CGContextMoveToPoint(contextRef, innerPoint.x, innerPoint.y);
-        CGContextAddLineToPoint(contextRef, outerPoint.x, outerPoint.y);
+        CGSize outerDelta = CGSizeMake(self.outerRadius*cos(outerAngle), self.outerRadius*sin(outerAngle));
+        CGPoint outerPoint = CGPointMake(center.x+outerDelta.width, center.y+outerDelta.height);
         
-        UIColor *color = [UIColor colorWithRed:0 green:1 blue:1 alpha:0.7];
+        CGMutablePathRef rawPath = CGPathCreateMutable();
+        CGPathMoveToPoint(rawPath, nil, innerPoint.x, innerPoint.y);
+        CGPathAddLineToPoint(rawPath, nil, outerPoint.x, outerPoint.y);
         
-        CGContextSetStrokeColorWithColor(contextRef, color.CGColor);
-        CGContextStrokePath(contextRef);
+        CGVector thisVector = CGVectorMake(outerPoint.x-innerPoint.x, outerPoint.y-innerPoint.y);
+        CGVector thatVector = CGVectorMake(thisVector.dy, -thisVector.dx);
         
-        CGContextAddArc(contextRef, outerPoint.x, outerPoint.y, 1, 0, M_PI*2, YES);
-        CGContextSetStrokeColorWithColor(contextRef, [UIColor grayColor].CGColor);
+        CGFloat vectorLength = pow(pow(thatVector.dx, 2)+pow(thatVector.dy, 2), 0.5);
+        
+        CGFloat sinVector = thatVector.dy/vectorLength;
+        CGFloat cosVector = thatVector.dx/vectorLength;
+        
+        CGAffineTransform trans = CGAffineTransformMakeTranslation(cosVector*4, sinVector*4);
+        
+        CGPathRef cookedPath = CGPathCreateCopyByStrokingPath(rawPath, &trans, 8,
+                                                              kCGLineCapButt, kCGLineJoinMiter, 1);
+    
+        CGContextAddPath(contextRef, cookedPath);
+        CGContextFillPath(contextRef);
+        
+        CGContextAddPath(contextRef, cookedPath);
+        CGContextSetLineWidth(contextRef, 1);
         CGContextStrokePath(contextRef);
     }
+    
+    CGPathRef path = CGPathCreateCopyByStrokingPath(pathRef, nil, 8, kCGLineCapSquare, kCGLineJoinMiter, 1);
+    
+    CGContextAddPath(contextRef, path);
+    CGContextFillPath(contextRef);
+    
+    CGContextAddPath(contextRef, path);
+    CGContextStrokePath(contextRef);
     
     CGContextRestoreGState(contextRef);
 }
