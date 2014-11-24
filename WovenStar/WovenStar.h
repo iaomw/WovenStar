@@ -13,9 +13,9 @@
 @property(getter=isPaused, nonatomic) BOOL paused;
 
 @property (assign, nonatomic) CGFloat duration;
-@property (assign, nonatomic) BOOL clockwise;
 
-@property (assign, nonatomic) CGFloat sideLength;
+@property (assign, nonatomic, readwrite) CGFloat eleLength;
+@property (assign, nonatomic, readwrite) CGFloat eleWidth;
 
 - (void)setForeColor:(UIColor *)foreColor andBackColor:(UIColor*)backColor;
 
