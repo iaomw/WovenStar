@@ -214,10 +214,10 @@
     
     CGPoint center = CGPointMake(width/2, height/2);
     
-    CGContextRef contextRef = UIGraphicsGetCurrentContext();
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height/2), NO, self.contentScaleFactor);
     
-    CGContextSaveGState(contextRef);
-    //CGContextClearRect(contextRef, rect);
+    CGContextRef contextRef = UIGraphicsGetCurrentContext();
+    CGContextClipToRect(contextRef, CGRectMake(0, 0, width, height/2));
     
     [self.foreColor setFill];
     [self.backgroundColor setStroke];
@@ -255,12 +255,26 @@
         CGContextAddPath(contextRef, rotatedPath);
         CGContextFillPath(contextRef);
         
+        CGContextDrawPath(contextRef, kCGPathFillStroke);
+        
         CGContextAddPath(contextRef, rotatedPath);
         CGContextSetLineWidth(contextRef, 1);
         CGContextStrokePath(contextRef);
     }
     
-    CGContextRestoreGState(contextRef);
+    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    [snapshot drawInRect:CGRectMake(0, 0, width, height/2)];
+    
+    contextRef = UIGraphicsGetCurrentContext();
+    
+    CGContextTranslateCTM(contextRef, center.x, center.y);
+    CGContextScaleCTM(contextRef, -1, 1);
+    CGContextTranslateCTM(contextRef, -center.x, -center.y);
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, height/2, width, height/2), snapshot.CGImage);
 }
 
 //http://stackoverflow.com/questions/13738364/rotate-cgpath-without-changing-its-position
