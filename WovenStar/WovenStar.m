@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 iaomw. All rights reserved.
 //
 
-#import "WovenStar.h"
-
 #define OuterRange (2*M_PI/3)
 #define InnerRange (M_PI/3)
+
+#import "WovenStar.h"
 
 @interface WovenStar ()
 
@@ -31,6 +31,7 @@
 
 @implementation WovenStar
 
+@synthesize eleLength = _eleLength;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -71,7 +72,7 @@
     
     if (!_duration) {
         
-        return 5;
+        return 4;
     }
     
     return _duration;
@@ -85,6 +86,13 @@
     }
     
     return _foreColor;
+}
+
+- (void)setEleLength:(CGFloat)eleLength {
+    
+    _eleLength = eleLength;
+    
+    _initialRadius = 0;
 }
 
 - (CGFloat)eleLength {
@@ -171,8 +179,13 @@
         
         self.ratio -= 1;
         
-        self.outerBaseAngle = 0;
-        self.innerBaseAngle = 0;
+//        self.outerBaseAngle = 0;
+//        self.innerBaseAngle = 0;
+        
+        CGFloat temporary = self.outerBaseAngle;
+        self.outerBaseAngle = self.innerBaseAngle;
+        
+        self.innerBaseAngle = temporary;
     }
     
     self.outerBaseAngle += ratio*OuterRange;

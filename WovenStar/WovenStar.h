@@ -10,12 +10,12 @@
 
 @interface WovenStar : UIView
 
-@property(getter=isPaused, nonatomic) BOOL paused;
+@property (getter=isPaused, nonatomic) BOOL paused;
 
 @property (assign, nonatomic) CGFloat duration;
 
-@property (assign, nonatomic, readwrite) CGFloat eleLength;
-@property (assign, nonatomic, readwrite) CGFloat eleWidth;
+@property (assign, nonatomic) CGFloat eleLength;
+@property (assign, nonatomic) CGFloat eleWidth;
 
 - (void)setForeColor:(UIColor *)foreColor andBackColor:(UIColor*)backColor;
 

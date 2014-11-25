@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,8 +16,54 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="8" minValue="2" maxValue="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vrn-SY-bvV">
+                                <rect key="frame" x="22" y="562" width="556" height="31"/>
+                                <connections>
+                                    <action selector="slide:" destination="vXZ-lx-hvc" eventType="valueChanged" id="3tX-yP-tR2"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="64" minValue="8" maxValue="121" translatesAutoresizingMaskIntoConstraints="NO" id="ggg-sw-Z0n">
+                                <rect key="frame" x="22" y="524" width="556" height="31"/>
+                                <connections>
+                                    <action selector="slide:" destination="vXZ-lx-hvc" eventType="valueChanged" id="yyx-at-eQv"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="4" minValue="0.80000000000000004" maxValue="8" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-Xi-opY">
+                                <rect key="frame" x="22" y="486" width="556" height="31"/>
+                                <connections>
+                                    <action selector="slide:" destination="vXZ-lx-hvc" eventType="valueChanged" id="sby-Qm-SDg"/>
+                                </connections>
+                            </slider>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ucY-Um-Gkm">
+                                <rect key="frame" x="16" y="20" width="51" height="31"/>
+                                <connections>
+                                    <action selector="liveSwitched:" destination="vXZ-lx-hvc" eventType="valueChanged" id="LgF-P9-WEP"/>
+                                </connections>
+                            </switch>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="Alw-Xi-opY" secondAttribute="centerX" id="Avx-hr-1y0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Vrn-SY-bvV" secondAttribute="trailing" constant="8" id="H2w-bG-13q"/>
+                            <constraint firstItem="Vrn-SY-bvV" firstAttribute="top" secondItem="ggg-sw-Z0n" secondAttribute="bottom" constant="8" id="IHr-7B-Qqk"/>
+                            <constraint firstItem="Alw-Xi-opY" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="8" id="RSZ-RP-JYb"/>
+                            <constraint firstItem="ggg-sw-Z0n" firstAttribute="top" secondItem="Alw-Xi-opY" secondAttribute="bottom" constant="8" id="Vou-Vx-Lky"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Vrn-SY-bvV" secondAttribute="bottom" constant="8" id="Y5u-pa-oMB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Alw-Xi-opY" secondAttribute="trailing" constant="8" id="bcl-W1-BTP"/>
+                            <constraint firstAttribute="centerX" secondItem="Vrn-SY-bvV" secondAttribute="centerX" id="fQg-BL-DB2"/>
+                            <constraint firstAttribute="centerX" secondItem="ggg-sw-Z0n" secondAttribute="centerX" id="gJo-ZG-Qzf"/>
+                            <constraint firstItem="Vrn-SY-bvV" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="8" id="mRT-X8-51G"/>
+                            <constraint firstItem="ggg-sw-Z0n" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="8" id="oHF-y0-XB9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ggg-sw-Z0n" secondAttribute="trailing" constant="8" id="sLb-f0-9n8"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="durationSlider" destination="Alw-Xi-opY" id="9sq-jx-NFw"/>
+                        <outlet property="eleLengthSilder" destination="ggg-sw-Z0n" id="6Ny-e3-RnY"/>
+                        <outlet property="eleWidthSilder" destination="Vrn-SY-bvV" id="cEs-h5-DEG"/>
+                        <outlet property="liveSwitch" destination="ucY-Um-Gkm" id="YcZ-dp-w9l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
