@@ -212,20 +212,12 @@
     CGFloat width = rect.size.width;
     CGFloat height = rect.size.height;
     
+    CGFloat scale = self.contentScaleFactor;
     CGPoint center = CGPointMake(width/2, height/2);
-    
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height/2), NO, self.contentScaleFactor);
-    
-    CGContextRef contextRef = UIGraphicsGetCurrentContext();
-    CGContextClipToRect(contextRef, CGRectMake(0, 0, width, height/2));
-    
-    [self.foreColor setFill];
-    [self.backgroundColor setStroke];
     
     CGFloat innerAngle = self.innerBaseAngle; //+ M_PI*(i/6.0);
     CGSize innerDelta = CGSizeMake(self.innerRadius*cos(innerAngle), self.innerRadius*sin(innerAngle));
     CGPoint innerPoint = CGPointMake(center.x+innerDelta.width, center.y+innerDelta.height);
-    
     CGFloat outerAngle = self.outerBaseAngle; //+ M_PI*(i/6.0);
     CGSize outerDelta = CGSizeMake(self.outerRadius*cos(outerAngle), self.outerRadius*sin(outerAngle));
     CGPoint outerPoint = CGPointMake(center.x+outerDelta.width, center.y+outerDelta.height);
@@ -248,33 +240,67 @@
     CGPathRef cookedPath = CGPathCreateCopyByStrokingPath(rawPath, &trans, self.eleWidth,
                                                           kCGLineCapButt, kCGLineJoinBevel, 1);
     
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, scale);
+    
+    CGContextRef contextRef = UIGraphicsGetCurrentContext();
+    
+    [self.foreColor setFill];
+    [self.backgroundColor setStroke];
+    
+    CGRect lastBox, midBox;
+    
     for (int i = 0; i < 12; i++) {
         
         CGPathRef rotatedPath = createPathRotatedAroundCenter(cookedPath, center, M_PI*(i/6.0));
-    
-        CGContextAddPath(contextRef, rotatedPath);
-        CGContextFillPath(contextRef);
         
+        lastBox = CGPathGetPathBoundingBox(rotatedPath);
+        
+        if ( i==5 ) { midBox = CGPathGetPathBoundingBox(rotatedPath); }
+        if ( i==11 ) { lastBox = CGPathGetPathBoundingBox(rotatedPath); }
+        
+        CGContextAddPath(contextRef, rotatedPath);
         CGContextDrawPath(contextRef, kCGPathFillStroke);
-        
-        CGContextAddPath(contextRef, rotatedPath);
-        CGContextSetLineWidth(contextRef, 1);
-        CGContextStrokePath(contextRef);
     }
     
+    [self.foreColor setFill];
+    
     UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *cropped = [self imageByCropping:snapshot toRect:midBox];
     
     UIGraphicsEndImageContext();
     
-    [snapshot drawInRect:CGRectMake(0, 0, width, height/2)];
-    
     contextRef = UIGraphicsGetCurrentContext();
     
+    [snapshot drawInRect:rect];
+    //CGContextDrawImage(contextRef, rect, snapshot.CGImage);
+    
     CGContextTranslateCTM(contextRef, center.x, center.y);
-    CGContextScaleCTM(contextRef, -1, 1);
+    CGContextScaleCTM(contextRef, -1, -1);
     CGContextTranslateCTM(contextRef, -center.x, -center.y);
     
-    CGContextDrawImage(contextRef, CGRectMake(0, height/2, width, height/2), snapshot.CGImage);
+    [cropped drawInRect:midBox];
+    //CGContextDrawImage(contextRef, midBox, cropped.CGImage);
+    
+    [[UIColor colorWithWhite:.4 alpha:.4] setFill];
+    CGContextFillRect(contextRef, midBox);
+}
+
+- (UIImage *)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect {
+    
+    CGFloat scale = self.contentScaleFactor;
+    
+    rect.origin.x*=scale; rect.origin.y*=scale;
+    rect.size.width*=scale; rect.size.height*=scale;
+    
+//    CGRect scaledRect = CGRectMake(rect.origin.x*scale, rect.origin.y*scale,
+//                                   rect.size.width*scale, rect.size.height*scale);
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect([imageToCrop CGImage], rect);
+    UIImage *cropped = [UIImage imageWithCGImage:imageRef];
+    
+    CGImageRelease(imageRef);
+    
+    return cropped;
 }
 
 //http://stackoverflow.com/questions/13738364/rotate-cgpath-without-changing-its-position
