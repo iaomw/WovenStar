@@ -39,6 +39,8 @@
     
     [ws setCenter:self.view.center];
     
+    [self.view setBackgroundColor:[UIColor colorWithRed:44.0/255 green:72.0/255 blue:108.0/255 alpha:1]];
+    
     [self.view addSubview:ws];
 }
 

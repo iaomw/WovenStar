@@ -23,7 +23,7 @@
                                     <action selector="slide:" destination="vXZ-lx-hvc" eventType="valueChanged" id="3tX-yP-tR2"/>
                                 </connections>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="64" minValue="8" maxValue="121" translatesAutoresizingMaskIntoConstraints="NO" id="ggg-sw-Z0n">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="64" minValue="21" maxValue="121" translatesAutoresizingMaskIntoConstraints="NO" id="ggg-sw-Z0n">
                                 <rect key="frame" x="22" y="524" width="556" height="31"/>
                                 <connections>
                                     <action selector="slide:" destination="vXZ-lx-hvc" eventType="valueChanged" id="yyx-at-eQv"/>

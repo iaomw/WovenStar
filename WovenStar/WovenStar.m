@@ -247,6 +247,8 @@
     [self.foreColor setFill];
     [self.backgroundColor setStroke];
     
+    CGContextSetLineWidth(contextRef, 1);
+    
     CGRect lastBox, midBox;
     
     for (int i = 0; i < 12; i++) {
@@ -260,9 +262,12 @@
         
         CGContextAddPath(contextRef, rotatedPath);
         CGContextDrawPath(contextRef, kCGPathFillStroke);
+        
+        CGPathRelease(rotatedPath);
     }
     
-    [self.foreColor setFill];
+    CGPathRelease(rawPath);
+    CGPathRelease(cookedPath);
     
     UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
     UIImage *cropped = [self imageByCropping:snapshot toRect:midBox];
@@ -271,18 +276,20 @@
     
     contextRef = UIGraphicsGetCurrentContext();
     
+    CGContextSaveGState(contextRef);
+    
     [snapshot drawInRect:rect];
-    //CGContextDrawImage(contextRef, rect, snapshot.CGImage);
     
     CGContextTranslateCTM(contextRef, center.x, center.y);
     CGContextScaleCTM(contextRef, -1, -1);
     CGContextTranslateCTM(contextRef, -center.x, -center.y);
     
     [cropped drawInRect:midBox];
-    //CGContextDrawImage(contextRef, midBox, cropped.CGImage);
     
     [[UIColor colorWithWhite:.4 alpha:.4] setFill];
     CGContextFillRect(contextRef, midBox);
+    
+    CGContextRestoreGState(contextRef);
 }
 
 - (UIImage *)imageByCropping:(UIImage *)imageToCrop toRect:(CGRect)rect {
