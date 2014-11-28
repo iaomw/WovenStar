@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5794F3011A282DB10082D1B4 /* WovenStar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5794F3001A282DB10082D1B4 /* WovenStar.m */; };
 		57D92CDA19EFC429003415A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D92CD919EFC429003415A4 /* main.m */; };
 		57D92CDD19EFC429003415A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D92CDC19EFC429003415A4 /* AppDelegate.m */; };
 		57D92CE019EFC429003415A4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D92CDF19EFC429003415A4 /* ViewController.m */; };
@@ -14,7 +15,6 @@
 		57D92CE519EFC429003415A4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57D92CE419EFC429003415A4 /* Images.xcassets */; };
 		57D92CE819EFC429003415A4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57D92CE619EFC429003415A4 /* LaunchScreen.xib */; };
 		57D92CF419EFC429003415A4 /* WovenStarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D92CF319EFC429003415A4 /* WovenStarTests.m */; };
-		57D92CFF19EFC4E7003415A4 /* WovenStar.m in Sources */ = {isa = PBXBuildFile; fileRef = 57D92CFE19EFC4E7003415A4 /* WovenStar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +28,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5794F2FF1A282DB10082D1B4 /* WovenStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WovenStar.h; sourceTree = "<group>"; };
+		5794F3001A282DB10082D1B4 /* WovenStar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WovenStar.m; sourceTree = "<group>"; };
 		57D92CD419EFC429003415A4 /* WovenStar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WovenStar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D92CD819EFC429003415A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57D92CD919EFC429003415A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,8 +43,6 @@
 		57D92CED19EFC429003415A4 /* WovenStarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WovenStarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D92CF219EFC429003415A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57D92CF319EFC429003415A4 /* WovenStarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WovenStarTests.m; sourceTree = "<group>"; };
-		57D92CFD19EFC4E7003415A4 /* WovenStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WovenStar.h; sourceTree = "<group>"; };
-		57D92CFE19EFC4E7003415A4 /* WovenStar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WovenStar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +63,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5794F2FE1A282DB10082D1B4 /* essence */ = {
+			isa = PBXGroup;
+			children = (
+				5794F2FF1A282DB10082D1B4 /* WovenStar.h */,
+				5794F3001A282DB10082D1B4 /* WovenStar.m */,
+			);
+			path = essence;
+			sourceTree = "<group>";
+		};
 		57D92CCB19EFC429003415A4 = {
 			isa = PBXGroup;
 			children = (
@@ -86,8 +95,7 @@
 			children = (
 				57D92CDB19EFC429003415A4 /* AppDelegate.h */,
 				57D92CDC19EFC429003415A4 /* AppDelegate.m */,
-				57D92CFD19EFC4E7003415A4 /* WovenStar.h */,
-				57D92CFE19EFC4E7003415A4 /* WovenStar.m */,
+				5794F2FE1A282DB10082D1B4 /* essence */,
 				57D92CDE19EFC429003415A4 /* ViewController.h */,
 				57D92CDF19EFC429003415A4 /* ViewController.m */,
 				57D92CE119EFC429003415A4 /* Main.storyboard */,
@@ -227,7 +235,7 @@
 				57D92CE019EFC429003415A4 /* ViewController.m in Sources */,
 				57D92CDD19EFC429003415A4 /* AppDelegate.m in Sources */,
 				57D92CDA19EFC429003415A4 /* main.m in Sources */,
-				57D92CFF19EFC4E7003415A4 /* WovenStar.m in Sources */,
+				5794F3011A282DB10082D1B4 /* WovenStar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
