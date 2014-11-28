@@ -3,7 +3,7 @@ WovenStar
 
 iOS port of [Woven star](https://dribbble.com/shots/1691328-Woven-star).
 
-<img src="WovenStar.gif"/>
+<img src="WovenStar.png"/>
 
 ## Installation
 

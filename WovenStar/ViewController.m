@@ -32,16 +32,14 @@
     
     ws = [[WovenStar alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
     
-    [ws setForeColor:[UIColor colorWithRed:164.0/255 green:194.0/255 blue:231.0/255 alpha:1]
-        andBackColor:[UIColor colorWithRed:44.0/255 green:72.0/255 blue:108.0/255 alpha:1]];
-    
-    [ws setPaused:NO];
+    [ws setForeColor:[UIColor colorWithRed:44.0/255 green:72.0/255 blue:108.0/255 alpha:1]
+        andBackColor:[UIColor whiteColor]];
     
     [ws setCenter:self.view.center];
     
-    [self.view setBackgroundColor:[UIColor colorWithRed:44.0/255 green:72.0/255 blue:108.0/255 alpha:1]];
-    
     [self.view addSubview:ws];
+    
+    [ws setPaused:NO];
 }
 
 - (IBAction)slide:(UISlider*)sender {
