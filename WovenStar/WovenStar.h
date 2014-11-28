@@ -17,6 +17,8 @@
 @property (assign, nonatomic) CGFloat eleLength;
 @property (assign, nonatomic) CGFloat eleWidth;
 
+@property (assign, nonatomic) BOOL debug;
+
 - (void)setForeColor:(UIColor *)foreColor andBackColor:(UIColor*)backColor;
 
 @end

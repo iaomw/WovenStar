@@ -184,7 +184,6 @@
         
         CGFloat temporary = self.outerBaseAngle;
         self.outerBaseAngle = self.innerBaseAngle;
-        
         self.innerBaseAngle = temporary;
     }
     
@@ -230,9 +229,9 @@
     
     CGVector entadVector = CGVectorMake(center.x-lineCenter.x, center.y-lineCenter.y);
     
-    CGFloat entadLength = sqrt(pow(entadVector.dx, 2)+pow(entadVector.dy, 2));
-    CGFloat entadSin = entadVector.dy/entadLength;
-    CGFloat entadCos = entadVector.dx/entadLength;
+    CGFloat entadLen = sqrt(pow(entadVector.dx, 2)+pow(entadVector.dy, 2));
+    CGFloat entadSin = entadVector.dy/entadLen;
+    CGFloat entadCos = entadVector.dx/entadLen;
     
     CGAffineTransform trans = CGAffineTransformMakeTranslation(entadCos*self.eleWidth/2,
                                                                entadSin*self.eleWidth/2);
@@ -243,6 +242,9 @@
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, scale);
     
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
+    
+    CGContextSetAllowsAntialiasing(contextRef, YES);
+    CGContextSetShouldAntialias(contextRef, YES);
     
     [self.foreColor setFill];
     [self.backgroundColor setStroke];
@@ -286,8 +288,11 @@
     
     [cropped drawInRect:midBox];
     
-    [[UIColor colorWithWhite:.4 alpha:.4] setFill];
-    CGContextFillRect(contextRef, midBox);
+    if (self.debug) {
+     
+        [[UIColor colorWithWhite:.4 alpha:.4] setFill];
+        CGContextFillRect(contextRef, midBox);
+    }
     
     CGContextRestoreGState(contextRef);
 }
